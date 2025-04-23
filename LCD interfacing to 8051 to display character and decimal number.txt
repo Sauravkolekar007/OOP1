@@ -1,0 +1,62 @@
+ORG 0000H
+
+MOV DPTR, #MSG
+
+CLR P3.1         ; RW = 0 (Write)
+MOV A, #38H      ; Function set: 2 lines, 5x7
+ACALL CMD
+MOV A, #0EH      ; Display ON, cursor ON
+ACALL CMD
+MOV A, #01H      ; Clear display
+ACALL CMD
+MOV A, #80H      ; Cursor at 1st line
+ACALL CMD
+
+LOOP:
+    CLR A
+    MOVC A, @A+DPTR
+    JZ SHOW_NUMBER
+    MOV P2, A
+    SETB P3.0     ; RS = 1
+    SETB P3.2     ; EN = 1
+    ACALL DELAY
+    CLR P3.2      ; EN = 0
+    INC DPTR
+    SJMP LOOP
+
+SHOW_NUMBER:
+    MOV A, #48    ; '0'
+    MOV P2, A
+    SETB P3.0
+    SETB P3.2
+    ACALL DELAY
+    CLR P3.2
+
+    MOV A, #53    ; '5'
+    MOV P2, A
+    SETB P3.0
+    SETB P3.2
+    ACALL DELAY
+    CLR P3.2
+
+    SJMP $
+
+CMD:
+    MOV P2, A
+    CLR P3.0      ; RS = 0
+    SETB P3.2
+    ACALL DELAY
+    CLR P3.2
+    RET
+
+DELAY:
+    MOV R1, #255
+D1: MOV R2, #255
+D2: DJNZ R2, D2
+    DJNZ R1, D1
+    RET
+
+MSG:
+    DB 'HELLO ',00H
+
+END
