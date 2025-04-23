@@ -1,0 +1,25 @@
+ORG 0000H
+
+MOV R0, #30H       ; R0 = pointer to start of array
+MOV R1, #05H       ; R1 = number of elements (array size = 5)
+
+MOV A, @R0         ; Load first value into A
+MOV R2, A          ; Assume it's the largest
+
+LOOP:
+    INC R0         ; Point to next array element
+    MOV A, @R0     ; Load next number
+    CJNE A, R2, CHECK
+    SJMP SKIP
+
+CHECK:
+    JNC SKIP       ; If A <= R2, skip
+    MOV R2, A      ; A > R2, so update largest
+
+SKIP:
+    DJNZ R1, LOOP  ; Loop until R1 = 0
+
+; R2 now contains the largest value
+SJMP $
+
+END

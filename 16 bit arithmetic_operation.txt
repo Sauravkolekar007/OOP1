@@ -1,0 +1,38 @@
+; 16-bit Arithmetic Operations (Easy Version)
+; Numbers: num1 = 1234H, num2 = 5678H
+
+ORG 0000H
+
+; ----- Store 16-bit numbers in registers -----
+MOV R0, #34H     ; num1 low byte
+MOV R1, #12H     ; num1 high byte
+
+MOV R2, #78H     ; num2 low byte
+MOV R3, #56H     ; num2 high byte
+
+; ----- 16-bit Addition: R0:R1 + R2:R3 -----
+MOV A, R0
+ADD A, R2        ; Low byte addition
+MOV R4, A        ; Result low byte
+
+MOV A, R1
+ADDC A, R3       ; High byte addition with carry
+MOV R5, A        ; Result high byte
+
+; Result of addition = R5:R4
+
+; ----- 16-bit Subtraction: R2:R3 - R0:R1 -----
+MOV A, R2
+CLR C
+SUBB A, R0       ; Low byte subtraction
+MOV R6, A
+
+MOV A, R3
+SUBB A, R1       ; High byte subtraction with borrow
+MOV R7, A
+
+; Result of subtraction = R7:R6
+
+SJMP $
+
+END

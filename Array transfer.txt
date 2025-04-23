@@ -1,0 +1,21 @@
+; Program: Array transfer from source to destination
+; Microcontroller: 8051
+; IDE: SIDE51 / Keil
+
+ORG 0000H
+
+MOV R0, #30H      ; Source starting address
+MOV R1, #40H      ; Destination starting address
+MOV R2, #05H      ; Number of bytes to transfer (array size = 5)
+
+NEXT:
+    MOV A, @R0    ; Read byte from source
+    MOV @R1, A    ; Write byte to destination
+
+    INC R0        ; Increment source pointer
+    INC R1        ; Increment destination pointer
+    DJNZ R2, NEXT ; Repeat until R2 = 0
+
+SJMP $            ; Stay here
+
+END

@@ -1,0 +1,28 @@
+ORG 0000H
+
+MOV R0, #30H       ; R0 = pointer to array start (30H)
+MOV R1, #05H       ; R1 = count of numbers (array size = 5)
+
+MOV A, @R0         ; Load first number
+MOV R2, A          ; Assume it’s the smallest
+
+LOOP:
+    INC R0         ; Move to next number
+    MOV A, @R0     ; Load current number
+    CJNE A, R2, CHECK
+    SJMP SKIP
+
+CHECK:
+    JC UPDATE      ; If A < R2, update smallest
+    SJMP SKIP
+
+UPDATE:
+    MOV R2, A      ; Store new smallest number
+
+SKIP:
+    DJNZ R1, LOOP  ; Repeat until all numbers checked
+
+; R2 has the smallest number
+SJMP $
+
+END
