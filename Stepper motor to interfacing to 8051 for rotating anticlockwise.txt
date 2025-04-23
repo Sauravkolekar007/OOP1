@@ -1,0 +1,21 @@
+ORG 0H
+
+START:
+    MOV P1, #0x08
+    CALL Delay
+    MOV P1, #0x04
+    CALL Delay
+    MOV P1, #0x02
+    CALL Delay
+    MOV P1, #0x01
+    CALL Delay
+    SJMP START
+
+Delay:
+    MOV R0, #255
+DELAY_LOOP:
+    NOP
+    DJNZ R0, DELAY_LOOP
+    RET
+
+END
