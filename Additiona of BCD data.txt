@@ -1,0 +1,7 @@
+ORG 0000H
+
+MOV A, #25H
+ADD A, #37H
+DA A
+
+END
