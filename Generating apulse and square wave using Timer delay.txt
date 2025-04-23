@@ -1,0 +1,22 @@
+ORG 0000H
+
+MOV TMOD, #01H       ; Timer0 Mode 1 (16-bit)
+
+MAIN:
+    CPL P1.0         ; Toggle P1.0 (generates pulse)
+    ACALL DELAY
+    SJMP MAIN
+
+DELAY:
+    MOV TH0, #0FCH   ; Adjust for ~1ms delay (for 12MHz crystal)
+    MOV TL0, #066H
+    SETB TR0
+
+WAIT:
+    JNB TF0, WAIT
+
+    CLR TR0
+    CLR TF0
+    RET
+
+END
