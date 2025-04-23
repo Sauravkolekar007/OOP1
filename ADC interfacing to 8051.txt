@@ -1,0 +1,16 @@
+ORG 0000H
+
+START:
+    CLR P3.0          ; WR = 0
+    SETB P3.0         ; WR = 1 → Start conversion
+
+WAIT_INTR:
+    JB P3.2, WAIT_INTR ; Wait for INTR = 0
+
+    CLR P3.1          ; RD = 0
+    MOV A, P1         ; Read ADC value
+    SETB P3.1         ; RD = 1
+
+    SJMP START
+
+END
