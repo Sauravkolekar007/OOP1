@@ -1,0 +1,31 @@
+ORG 0000H
+
+START:
+    MOV A, #0F0H
+    MOV P1, A
+    ACALL SCAN
+    SJMP START
+
+SCAN:
+    MOV P1, #0FEH
+    ACALL CHECK
+    MOV P1, #0FDH
+    ACALL CHECK
+    MOV P1, #0FBH
+    ACALL CHECK
+    MOV P1, #0F7H
+    ACALL CHECK
+    RET
+
+CHECK:
+    MOV A, P1
+    ANL A, #0F0H
+    CJNE A, #0F0H, PRESSED
+    RET
+
+PRESSED:
+    MOV R0, P1
+    ; Add logic here to decode key
+    RET
+
+END
