@@ -1,0 +1,31 @@
+ORG 0000H
+
+MOV R3, #04H
+
+OUTER:
+    MOV R0, #30H
+    MOV R2, #04H
+
+INNER:
+    MOV A, @R0
+    MOV R1, R0
+    INC R1
+    MOV B, @R1
+
+    CJNE A, B, CHECK
+    SJMP SKIP
+
+CHECK:
+    JNC SKIP
+
+    MOV @R0, B
+    MOV @R1, A
+
+SKIP:
+    INC R0
+    DJNZ R2, INNER
+    DJNZ R3, OUTER
+
+SJMP $
+
+END
