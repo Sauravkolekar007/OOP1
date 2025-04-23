@@ -1,0 +1,28 @@
+ORG 0H
+
+START:
+    MOV P1, #0FFH
+    MOV P2, #00H
+    
+    MOV A, #00H
+    CALL READ_ADC
+    
+    SJMP START
+
+READ_ADC:
+    MOV P3, #01H
+    NOP
+    MOV P3, #00H
+    
+WAIT_ADC_READY:
+    MOV A, P3
+    JZ WAIT_ADC_READY
+    
+    MOV A, P1
+    MOV R0, A
+    MOV A, P1
+    MOV R1, A
+    
+    RET
+
+END
